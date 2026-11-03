@@ -1,0 +1,2 @@
+val = 100 / 5; // inline comment
+ratio = 20 / 4;

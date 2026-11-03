@@ -1,0 +1,7 @@
+Token type     | Lexeme           | Line   | Column
+---------------------------------------------------------------
+IDENTIFIER     | total            | 1      | 1     
+ASSIGN         | =                | 1      | 7     
+INTEGER        | 999              | 1      | 9     
+---------------------------------------------------------------
+Summary: 3 tokens scanned, 0 error(s) in 0.897 ms.

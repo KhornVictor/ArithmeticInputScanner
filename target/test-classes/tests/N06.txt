@@ -1,0 +1,5 @@
+// Calculate volume
+length = 10.5; /* length in cm */
+width = 4.2;   /* width in cm */
+height = 2.0;
+volume = length * width * height;

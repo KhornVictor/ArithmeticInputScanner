@@ -1,0 +1,14 @@
+Token type     | Lexeme           | Line   | Column
+---------------------------------------------------------------
+IDENTIFIER     | bad_var          | 1      | 1     
+ASSIGN         | =                | 1      | 9     
+IDENTIFIER     | tag              | 1      | 12    
+OP_PLUS        | +                | 1      | 16    
+IDENTIFIER     | user             | 1      | 19    
+SEMICOLON      | ;                | 1      | 23    
+---------------------------------------------------------------
+
+LEXICAL ERRORS FOUND (2):
+  -> LEXICAL ERROR: Unexpected character '#' at Line 1, Column 11
+  -> LEXICAL ERROR: Unexpected character '@' at Line 1, Column 18
+Summary: 6 tokens scanned, 2 error(s) in 1.056 ms.

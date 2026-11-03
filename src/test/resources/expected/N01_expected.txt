@@ -1,0 +1,12 @@
+Token type     | Lexeme           | Line   | Column
+---------------------------------------------------------------
+IDENTIFIER     | total            | 1      | 1     
+ASSIGN         | =                | 1      | 7     
+DECIMAL        | 12.5             | 1      | 9     
+OP_PLUS        | +                | 1      | 14    
+IDENTIFIER     | qty              | 1      | 16    
+OP_MUL         | *                | 1      | 20    
+INTEGER        | 2                | 1      | 22    
+SEMICOLON      | ;                | 1      | 23    
+---------------------------------------------------------------
+Summary: 8 tokens scanned, 0 error(s) in 1.743 ms.

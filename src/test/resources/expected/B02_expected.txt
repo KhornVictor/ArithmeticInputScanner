@@ -1,0 +1,18 @@
+Token type     | Lexeme           | Line   | Column
+---------------------------------------------------------------
+IDENTIFIER     | a                | 1      | 1     
+OP_GTE         | >=               | 1      | 2     
+IDENTIFIER     | b                | 1      | 4     
+OP_GT          | >                | 1      | 5     
+IDENTIFIER     | c                | 1      | 6     
+OP_EQ          | ==               | 1      | 7     
+IDENTIFIER     | d                | 1      | 9     
+OP_NEQ         | !=               | 1      | 10    
+IDENTIFIER     | e                | 1      | 12    
+OP_LTE         | <=               | 1      | 13    
+IDENTIFIER     | f                | 1      | 15    
+OP_LT          | <                | 1      | 16    
+IDENTIFIER     | g                | 1      | 17    
+SEMICOLON      | ;                | 1      | 18    
+---------------------------------------------------------------
+Summary: 14 tokens scanned, 0 error(s) in 1.397 ms.

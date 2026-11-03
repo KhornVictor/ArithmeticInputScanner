@@ -1,0 +1,304 @@
+/* ==========================================================================
+   Modern Dark Theme for JFlex Arithmetic Input Scanner
+   ========================================================================== */
+
+.root {
+    -fx-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -fx-base: #1e1e2e;
+    -fx-background: #181825;
+    -fx-background-color: #181825;
+    -fx-text-fill: #cdd6f4;
+}
+
+/* Header styling */
+.header-bar {
+    -fx-background-color: #11111b;
+    -fx-padding: 14px 20px;
+    -fx-border-color: #313244;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.header-title {
+    -fx-font-size: 19px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #89b4fa;
+}
+
+.header-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #a6adc8;
+}
+
+/* Toolbar */
+.action-toolbar {
+    -fx-background-color: #181825;
+    -fx-padding: 10px 16px;
+    -fx-spacing: 10px;
+    -fx-border-color: #313244;
+    -fx-border-width: 0 0 1px 0;
+}
+
+/* Buttons */
+.btn-primary {
+    -fx-background-color: #89b4fa;
+    -fx-text-fill: #11111b;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-padding: 7px 16px;
+    -fx-background-radius: 6px;
+    -fx-cursor: hand;
+}
+
+.btn-primary:hover {
+    -fx-background-color: #b4befe;
+}
+
+.btn-secondary {
+    -fx-background-color: #313244;
+    -fx-text-fill: #cdd6f4;
+    -fx-border-color: #45475a;
+    -fx-border-radius: 6px;
+    -fx-font-size: 13px;
+    -fx-padding: 6px 14px;
+    -fx-background-radius: 6px;
+    -fx-cursor: hand;
+}
+
+.btn-secondary:hover {
+    -fx-background-color: #45475a;
+    -fx-text-fill: #ffffff;
+}
+
+.btn-success {
+    -fx-background-color: #a6e3a1;
+    -fx-text-fill: #11111b;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-padding: 7px 14px;
+    -fx-background-radius: 6px;
+    -fx-cursor: hand;
+}
+
+.btn-success:hover {
+    -fx-background-color: #94e2d5;
+}
+
+.btn-danger {
+    -fx-background-color: #f38ba8;
+    -fx-text-fill: #11111b;
+    -fx-font-size: 13px;
+    -fx-padding: 7px 14px;
+    -fx-background-radius: 6px;
+    -fx-cursor: hand;
+}
+
+.btn-danger:hover {
+    -fx-background-color: #eba0ac;
+}
+
+.btn-snippet {
+    -fx-font-size: 11px;
+    -fx-background-color: #313244;
+    -fx-border-color: #45475a;
+    -fx-border-radius: 4px;
+    -fx-text-fill: #bac2de;
+    -fx-padding: 3px 8px;
+    -fx-background-radius: 4px;
+    -fx-cursor: hand;
+}
+
+.btn-snippet:hover {
+    -fx-background-color: #45475a;
+    -fx-text-fill: #ffffff;
+}
+
+/* Text editor */
+.code-editor {
+    -fx-font-family: "JetBrains Mono", "Cascadia Code", "Fira Code", "Consolas", monospace;
+    -fx-font-size: 14px;
+    -fx-text-fill: #cdd6f4;
+    -fx-control-inner-background: #1e1e2e;
+    -fx-background-color: #1e1e2e;
+    -fx-highlight-fill: #45475a;
+    -fx-highlight-text-fill: #f5e0dc;
+    -fx-border-color: #313244;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+.text-input-field {
+    -fx-background-color: #1e1e2e;
+    -fx-text-fill: #cdd6f4;
+    -fx-border-color: #313244;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-padding: 6px 10px;
+}
+
+.text-input-field:focused {
+    -fx-border-color: #89b4fa;
+}
+
+/* Tab Pane */
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #181825;
+}
+
+.tab-pane .tab {
+    -fx-background-color: #1e1e2e;
+    -fx-background-radius: 6px 6px 0 0;
+    -fx-padding: 6px 16px;
+    -fx-border-color: #313244;
+    -fx-border-width: 1px 1px 0 1px;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: #313244;
+}
+
+.tab-pane .tab .tab-label {
+    -fx-text-fill: #a6adc8;
+    -fx-font-size: 13px;
+}
+
+.tab-pane .tab:selected .tab-label {
+    -fx-text-fill: #89b4fa;
+    -fx-font-weight: bold;
+}
+
+/* Table View */
+.table-view {
+    -fx-background-color: #1e1e2e;
+    -fx-table-cell-border-color: #313244;
+    -fx-border-color: #313244;
+    -fx-border-radius: 6px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #181825;
+}
+
+.table-view .column-header {
+    -fx-background-color: #181825;
+    -fx-border-color: #313244;
+    -fx-border-width: 0 1px 1px 0;
+    -fx-padding: 8px 6px;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #cdd6f4;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+.table-row-cell {
+    -fx-background-color: #1e1e2e;
+    -fx-text-fill: #cdd6f4;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #181825;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #313244;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #45475a;
+    -fx-text-fill: #ffffff;
+}
+
+.table-row-cell:selected .label {
+    -fx-text-fill: #ffffff;
+}
+
+.scroll-pane {
+    -fx-background: #181825;
+    -fx-background-color: #181825;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: #181825;
+}
+
+.split-pane {
+    -fx-background-color: #181825;
+}
+
+.split-pane > .split-pane-divider {
+    -fx-background-color: #313244;
+    -fx-padding: 0 1px;
+}
+
+/* Status Bar */
+.status-bar {
+    -fx-background-color: #11111b;
+    -fx-padding: 6px 16px;
+    -fx-border-color: #313244;
+    -fx-border-width: 1px 0 0 0;
+    -fx-font-size: 12px;
+    -fx-text-fill: #a6adc8;
+}
+
+/* Badges */
+.badge {
+    -fx-padding: 3px 9px;
+    -fx-background-radius: 12px;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.badge-info {
+    -fx-background-color: rgba(137, 180, 250, 0.2);
+    -fx-text-fill: #89b4fa;
+    -fx-border-color: rgba(137, 180, 250, 0.4);
+    -fx-border-radius: 12px;
+}
+
+.badge-success {
+    -fx-background-color: rgba(166, 227, 161, 0.2);
+    -fx-text-fill: #a6e3a1;
+    -fx-border-color: rgba(166, 227, 161, 0.4);
+    -fx-border-radius: 12px;
+}
+
+.badge-warning {
+    -fx-background-color: rgba(249, 226, 175, 0.2);
+    -fx-text-fill: #f9e2af;
+    -fx-border-color: rgba(249, 226, 175, 0.4);
+    -fx-border-radius: 12px;
+}
+
+.badge-error {
+    -fx-background-color: rgba(243, 139, 168, 0.2);
+    -fx-text-fill: #f38ba8;
+    -fx-border-color: rgba(243, 139, 168, 0.4);
+    -fx-border-radius: 12px;
+}
+
+/* Section Card */
+.card {
+    -fx-background-color: #1e1e2e;
+    -fx-border-color: #313244;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 16px;
+}
+
+.card-title-blue {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-text-fill: #89b4fa;
+}
+
+.card-title-green {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-text-fill: #a6e3a1;
+}
+
+.card-text {
+    -fx-text-fill: #cdd6f4;
+    -fx-font-size: 12px;
+}

@@ -1,0 +1,1 @@
+flag = (count >= 10) == (status != 0);

@@ -1,0 +1,18 @@
+Token type     | Lexeme           | Line   | Column
+---------------------------------------------------------------
+IDENTIFIER     | ratio            | 1      | 1     
+ASSIGN         | =                | 1      | 7     
+INTEGER        | 10               | 1      | 9     
+INTEGER        | 2                | 1      | 14    
+SEMICOLON      | ;                | 1      | 15    
+IDENTIFIER     | name             | 1      | 17    
+ASSIGN         | =                | 1      | 22    
+IDENTIFIER     | test             | 1      | 25    
+SEMICOLON      | ;                | 1      | 30    
+---------------------------------------------------------------
+
+LEXICAL ERRORS FOUND (3):
+  -> LEXICAL ERROR: Unexpected character '~' at Line 1, Column 12
+  -> LEXICAL ERROR: Unexpected character '"' at Line 1, Column 24
+  -> LEXICAL ERROR: Unexpected character '"' at Line 1, Column 29
+Summary: 9 tokens scanned, 3 error(s) in 1.001 ms.

@@ -1,0 +1,24 @@
+Token type     | Lexeme           | Line   | Column
+---------------------------------------------------------------
+IDENTIFIER     | length           | 2      | 1     
+ASSIGN         | =                | 2      | 8     
+DECIMAL        | 10.5             | 2      | 10    
+SEMICOLON      | ;                | 2      | 14    
+IDENTIFIER     | width            | 3      | 1     
+ASSIGN         | =                | 3      | 7     
+DECIMAL        | 4.2              | 3      | 9     
+SEMICOLON      | ;                | 3      | 12    
+IDENTIFIER     | height           | 4      | 1     
+ASSIGN         | =                | 4      | 8     
+DECIMAL        | 2.0              | 4      | 10    
+SEMICOLON      | ;                | 4      | 13    
+IDENTIFIER     | volume           | 5      | 1     
+ASSIGN         | =                | 5      | 8     
+IDENTIFIER     | length           | 5      | 10    
+OP_MUL         | *                | 5      | 17    
+IDENTIFIER     | width            | 5      | 19    
+OP_MUL         | *                | 5      | 25    
+IDENTIFIER     | height           | 5      | 27    
+SEMICOLON      | ;                | 5      | 33    
+---------------------------------------------------------------
+Summary: 20 tokens scanned, 0 error(s) in 1.181 ms.

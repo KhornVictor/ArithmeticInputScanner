@@ -1,0 +1,12 @@
+Token type     | Lexeme           | Line   | Column
+---------------------------------------------------------------
+IDENTIFIER     | val              | 1      | 1     
+ASSIGN         | =                | 1      | 5     
+DECIMAL        | 3.14             | 1      | 7     
+INTEGER        | 15               | 1      | 12    
+SEMICOLON      | ;                | 1      | 14    
+---------------------------------------------------------------
+
+LEXICAL ERRORS FOUND (1):
+  -> LEXICAL ERROR: Unexpected character '.' at Line 1, Column 11
+Summary: 5 tokens scanned, 1 error(s) in 1.955 ms.

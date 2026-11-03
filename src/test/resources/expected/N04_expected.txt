@@ -1,0 +1,18 @@
+Token type     | Lexeme           | Line   | Column
+---------------------------------------------------------------
+IDENTIFIER     | flag             | 1      | 1     
+ASSIGN         | =                | 1      | 6     
+LPAREN         | (                | 1      | 8     
+IDENTIFIER     | count            | 1      | 9     
+OP_GTE         | >=               | 1      | 15    
+INTEGER        | 10               | 1      | 18    
+RPAREN         | )                | 1      | 20    
+OP_EQ          | ==               | 1      | 22    
+LPAREN         | (                | 1      | 25    
+IDENTIFIER     | status           | 1      | 26    
+OP_NEQ         | !=               | 1      | 33    
+INTEGER        | 0                | 1      | 36    
+RPAREN         | )                | 1      | 37    
+SEMICOLON      | ;                | 1      | 38    
+---------------------------------------------------------------
+Summary: 14 tokens scanned, 0 error(s) in 1.651 ms.

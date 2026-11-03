@@ -1,0 +1,18 @@
+Token type     | Lexeme           | Line   | Column
+---------------------------------------------------------------
+IDENTIFIER     | result           | 1      | 1     
+ASSIGN         | =                | 1      | 8     
+LPAREN         | (                | 1      | 10    
+IDENTIFIER     | base             | 1      | 11    
+OP_PLUS        | +                | 1      | 16    
+IDENTIFIER     | offset           | 1      | 18    
+RPAREN         | )                | 1      | 24    
+OP_MUL         | *                | 1      | 26    
+LPAREN         | (                | 1      | 28    
+IDENTIFIER     | height           | 1      | 29    
+OP_DIV         | /                | 1      | 36    
+IDENTIFIER     | scale            | 1      | 38    
+RPAREN         | )                | 1      | 43    
+SEMICOLON      | ;                | 1      | 44    
+---------------------------------------------------------------
+Summary: 14 tokens scanned, 0 error(s) in 1.023 ms.

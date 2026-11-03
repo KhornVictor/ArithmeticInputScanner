@@ -1,0 +1,20 @@
+Token type     | Lexeme           | Line   | Column
+---------------------------------------------------------------
+IDENTIFIER     | a                | 1      | 1     
+ASSIGN         | =                | 1      | 2     
+DECIMAL        | 12.50            | 1      | 3     
+SEMICOLON      | ;                | 1      | 8     
+IDENTIFIER     | b                | 1      | 9     
+ASSIGN         | =                | 1      | 10    
+INTEGER        | 12               | 1      | 11    
+SEMICOLON      | ;                | 1      | 13    
+IDENTIFIER     | c                | 1      | 14    
+ASSIGN         | =                | 1      | 15    
+DECIMAL        | 0.99             | 1      | 16    
+SEMICOLON      | ;                | 1      | 20    
+IDENTIFIER     | d                | 1      | 21    
+ASSIGN         | =                | 1      | 22    
+INTEGER        | 0                | 1      | 23    
+SEMICOLON      | ;                | 1      | 24    
+---------------------------------------------------------------
+Summary: 16 tokens scanned, 0 error(s) in 1.396 ms.

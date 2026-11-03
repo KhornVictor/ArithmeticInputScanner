@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lab01 JFlex Group Project Report - Topic 4 Arithmetic Input Scanner</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #1e293b;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 24px;
+      background: #ffffff;
+    }
+    h1 { color: #0f172a; border-bottom: 2px solid #0284c7; padding-bottom: 8px; margin-bottom: 8px; font-size: 26px; }
+    h2 { color: #0369a1; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; margin-top: 30px; margin-bottom: 12px; font-size: 20px; }
+    h3 { color: #0f172a; margin-top: 20px; margin-bottom: 8px; font-size: 16px; }
+    p, li { font-size: 14px; margin-bottom: 10px; color: #334155; }
+    ul, ol { margin-left: 24px; margin-bottom: 14px; }
+    table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+    th, td { border: 1px solid #cbd5e1; padding: 7px 10px; text-align: left; }
+    th { background: #f1f5f9; color: #0f172a; font-weight: 600; }
+    tr:nth-child(even) { background: #f8fafc; }
+    code { font-family: "JetBrains Mono", Consolas, monospace; background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 12px; color: #0369a1; }
+    pre { background: #0f172a; color: #f8fafc; padding: 14px; border-radius: 6px; font-family: "JetBrains Mono", Consolas, monospace; font-size: 12px; overflow-x: auto; margin: 12px 0; }
+    pre code { background: none; color: inherit; padding: 0; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; }
+    .badge-pass { background: #dcfce7; color: #166534; }
+    .meta-box { background: #f0f9ff; border-left: 4px solid #0284c7; padding: 12px 16px; margin-bottom: 24px; border-radius: 0 6px 6px 0; }
+    @media print {
+      body { margin: 15mm; max-width: 100%; font-size: 11pt; }
+      h1 { font-size: 18pt; }
+      h2 { font-size: 14pt; page-break-after: avoid; }
+      table, pre { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<h1>Lab01 JFlex Group Project Report: Arithmetic Input Scanner</h1>
+
+<div class="meta-box">
+  <p><strong>Course:</strong> Compilation I4 GIC &nbsp;|&nbsp; <strong>Academic Year:</strong> 2026–2027</p>
+  <p><strong>Lecturer:</strong> OL Phearun &nbsp;|&nbsp; <strong>Topic 4:</strong> Arithmetic Input Scanner</p>
+  <p><strong>Project:</strong> JFlex Lexical Analyzer and JavaFX Interactive Environment</p>
+</div>
+
+<h2>1. Project Purpose & Scope</h2>
+<p>The goal of this project is to construct a rigorous lexical analyzer using JFlex and Java that recognizes arithmetic expressions, identifiers, numeric literals, relational operators, delimiters, and comments. The system includes both a standard command-line interface (CLI) conforming to the specification and a modern JavaFX Graphical User Interface (GUI) featuring real-time token inspection, syntax diagnostics, an interactive DFA state tracer, and an automated 16-case benchmark runner.</p>
+
+<h3>Language Features In Scope:</h3>
+<ul>
+  <li><strong>Identifiers:</strong> <code>[a-zA-Z_][a-zA-Z0-9_]*</code> (e.g. <code>total</code>, <code>qty</code>, <code>x1</code>).</li>
+  <li><strong>Numeric Literals:</strong> Non-negative integers <code>0 | [1-9][0-9]*</code> and floating decimals <code>(0 | [1-9][0-9]*)\.[0-9]+</code>.</li>
+  <li><strong>Operators:</strong> Assignment (<code>=</code>), Arithmetic (<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>^</code>), and Comparison (<code>></code>, <code>>=</code>, <code><</code>, <code><=</code>, <code>==</code>, <code>!=</code>).</li>
+  <li><strong>Delimiters:</strong> Parentheses <code>(</code>, <code>)</code>, statement terminators <code>;</code>, and comma <code>,</code>.</li>
+  <li><strong>Comments:</strong> Single-line <code>// ...</code> and multi-line <code>/* ... */</code> cleanly skipped.</li>
+  <li><strong>Error Handling:</strong> Non-fatal error reporting with 1-based line and column positions. Scanning continues to EOF.</li>
+</ul>
+
+<h3>Features Outside Scope:</h3>
+<p>Syntax tree validation (AST parsing) and arithmetic expression evaluation are intentionally kept outside the lexical scope.</p>
+
+<h2>2. Token Definitions Table</h2>
+<p>The scanner implements <strong>20 distinct token types</strong>:</p>
+<table>
+  <tr><th>Token Type</th><th>Category</th><th>Regular Expression Macro</th><th>Example Match</th></tr>
+  <tr><td><code>IDENTIFIER</code></td><td>Identifier</td><td><code>[a-zA-Z_][a-zA-Z0-9_]*</code></td><td><code>total</code>, <code>qty</code></td></tr>
+  <tr><td><code>INTEGER</code></td><td>Literal</td><td><code>0 | [1-9][0-9]*</code></td><td><code>0</code>, <code>42</code>, <code>999</code></td></tr>
+  <tr><td><code>DECIMAL</code></td><td>Literal</td><td><code>{Integer}\.[0-9]+</code></td><td><code>12.5</code>, <code>0.75</code></td></tr>
+  <tr><td><code>ASSIGN</code></td><td>Assignment</td><td><code>"="</code></td><td><code>=</code></td></tr>
+  <tr><td><code>OP_PLUS</code>, <code>OP_MINUS</code></td><td>Arithmetic</td><td><code>"+"</code>, <code>"-"</code></td><td><code>+</code>, <code>-</code></td></tr>
+  <tr><td><code>OP_MUL</code>, <code>OP_DIV</code></td><td>Arithmetic</td><td><code>"*"</code>, <code>"/"</code></td><td><code>*</code>, <code>/</code></td></tr>
+  <tr><td><code>OP_MOD</code>, <code>OP_POW</code></td><td>Arithmetic</td><td><code>"%"</code>, <code>"^"</code></td><td><code>%</code>, <code>^</code></td></tr>
+  <tr><td><code>OP_GT</code>, <code>OP_GTE</code></td><td>Comparison</td><td><code>">"</code>, <code>">="</code></td><td><code>></code>, <code>>=</code></td></tr>
+  <tr><td><code>OP_LT</code>, <code>OP_LTE</code></td><td>Comparison</td><td><code>"<"</code>, <code>"<="</code></td><td><code><</code>, <code><=</code></td></tr>
+  <tr><td><code>OP_EQ</code>, <code>OP_NEQ</code></td><td>Comparison</td><td><code>"=="</code>, <code>"!="</code></td><td><code>==</code>, <code>!=</code></td></tr>
+  <tr><td><code>LPAREN</code>, <code>RPAREN</code></td><td>Delimiter</td><td><code>"("</code>, <code>")"</code></td><td><code>(</code>, <code>)</code></td></tr>
+  <tr><td><code>SEMICOLON</code>, <code>COMMA</code></td><td>Delimiter</td><td><code>";"</code>, <code>","</code></td><td><code>;</code>, <code>,</code></td></tr>
+</table>
+
+<h2>3. Competing Rules & JFlex Disambiguation Analysis</h2>
+
+<h3>Case 1: Relational Operator <code>>=</code> vs <code>></code> and <code>=</code></h3>
+<p><strong>Conflict:</strong> When encountering <code>>=</code>, rule <code>">"</code> could match the first character, leaving <code>"="</code> to be matched separately as an assignment.</p>
+<p><strong>Resolution:</strong> JFlex enforces the <strong>Longest Match (Maximal Munch)</strong> principle. The rule <code>">="</code> consumes 2 characters, whereas <code>">"</code> consumes only 1. JFlex selects the 2-character match and emits a single <code>OP_GTE</code> token.</p>
+
+<h3>Case 2: Decimal <code>12.5</code> vs Integer <code>12</code></h3>
+<p><strong>Conflict:</strong> The integer pattern matches <code>12</code> (length 2). The decimal pattern matches <code>12.5</code> (length 4).</p>
+<p><strong>Resolution:</strong> JFlex matches the full 4 characters as <code>{Decimal}</code> due to longest match precedence, correctly avoiding an integer match followed by an unexpected dot.</p>
+
+<h3>Case 3 (Bonus): Division Operator <code>/</code> vs Single-Line Comment <code>//</code></h3>
+<p><strong>Resolution:</strong> <code>//</code> starts a comment matching the full line (length &gt; 2). The longest match principle ensures the entire comment is discarded without emitting spurious division operators.</p>
+
+<h2>4. Automaton (DFA) for <code>DECIMAL</code> Token</h2>
+<p>Formula: <code>DECIMAL = (0 | [1-9][0-9]*)\.[0-9]+</code></p>
+<pre><code>             '0'
+       (S0) ----> (S1) --'.'----\
+         |                       \
+         | '1'-'9'       '.'      v       '0'-'9'         '0'-'9'
+         +------> (S2) ---------> (S3) -----------> ((S4)) <----+
+                   ^               |                   |        |
+                   \---'0'-'9'-----/                   \--------/</code></pre>
+
+<table>
+  <tr><th>State</th><th>'0'</th><th>'1'-'9'</th><th>'.'</th><th>Other</th><th>Accepting?</th></tr>
+  <tr><td><strong>S0 (Start)</strong></td><td>S1</td><td>S2</td><td>Reject</td><td>Reject</td><td>No</td></tr>
+  <tr><td><strong>S1 (Leading zero)</strong></td><td>Reject</td><td>Reject</td><td>S3</td><td>Reject</td><td>No</td></tr>
+  <tr><td><strong>S2 (Integer body)</strong></td><td>S2</td><td>S2</td><td>S3</td><td>Reject</td><td>No</td></tr>
+  <tr><td><strong>S3 (Dot read)</strong></td><td>S4</td><td>S4</td><td>Reject</td><td>Reject</td><td>No</td></tr>
+  <tr><td><strong>S4 (Fractional digits)</strong></td><td>S4</td><td>S4</td><td>Reject</td><td>Reject</td><td><strong>YES (DECIMAL)</strong></td></tr>
+</table>
+
+<h2>5. Bug Discovery, Root Cause & Correction</h2>
+<p><strong>Bug Description:</strong> In initial specifications, decimal was written as <code>Decimal = {Integer} \. {Digit}*</code>. When scanning <code>x = 12. + 5;</code>, <code>12.</code> with zero fractional digits was incorrectly matched as a Decimal token.</p>
+<p><strong>Correction:</strong> We updated the pattern to <code>Decimal = {Integer} \. {Digit}+</code> requiring at least one trailing digit. Now, <code>12</code> is scanned as <code>INTEGER</code>, <code>.</code> is rejected as an unexpected character with Line 1 Col 7, and <code>+ 5</code> continues cleanly. Recorded as test <code>BUG01</code>.</p>
+
+<h2>6. Test Results Summary (16 / 16 PASSED)</h2>
+<table>
+  <tr><th>ID</th><th>Type</th><th>Input Snippet</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td>N01</td><td>Normal</td><td><code>total = 12.5 + qty * 2;</code></td><td>8 tokens (DECIMAL 12.5)</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>N02</td><td>Normal</td><td><code>result = (base + offset) * (height / scale);</code></td><td>14 tokens with parentheses</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>N03</td><td>Normal</td><td><code>y = 3 * x^2 + 7 % divisor;</code></td><td>Power (^) and modulo (%)</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>N04</td><td>Normal</td><td><code>flag = (count >= 10) == (status != 0);</code></td><td>Relational & equality</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>N05</td><td>Normal</td><td><code>step = a + b - c * d / e; final_val = step + 42;</code></td><td>18 tokens across statements</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>N06</td><td>Normal</td><td>Mixed code with <code>//</code> and <code>/* */</code></td><td>Comments skipped; 20 tokens</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>B01</td><td>Boundary</td><td><code>""</code> (Empty input)</td><td>0 tokens, 0 errors, clean EOF</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>B02</td><td>Boundary</td><td><code>a>=b>c==d!=e<=f<g;</code></td><td>Longest match on adjacent symbols</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>B03</td><td>Boundary</td><td><code>a=12.50;b=12;c=0.99;d=0;</code></td><td>Decimal vs Integer distinction</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>B04</td><td>Boundary</td><td><code>val = 100 / 5; // inline comment</code></td><td>Division token, comment skipped</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>B05</td><td>Boundary</td><td><code>total = 999</code></td><td>Clean EOF without newline</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>E01</td><td>Invalid</td><td><code>total = 50 $ 4;</code></td><td>Error for '$' at Col 12; scan continues</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>E02</td><td>Invalid</td><td><code>bad_var = #tag + @user;</code></td><td>2 errors for '#' and '@'</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>E03</td><td>Invalid</td><td><code>val = 3.14.15;</code></td><td>Error for second dot</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>E04</td><td>Invalid</td><td><code>ratio = 10 ~ 2; name = "test";</code></td><td>Errors for '~' and '"'</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>BUG01</td><td>Bug Fix</td><td><code>x = 12. + 5;</code></td><td>Trailing dot rejected; 12 is INTEGER</td><td><span class="badge badge-pass">PASS</span></td></tr>
+</table>
+
+<h2>7. Group Contribution Record</h2>
+<table>
+  <tr><th>Member</th><th>Student ID</th><th>Contribution</th></tr>
+  <tr><td>Member 1</td><td><code>p202X001</code></td><td>JFlex specification & regular expressions design</td></tr>
+  <tr><td>Member 2</td><td><code>p202X002</code></td><td>Java scanner driver, CLI runner & Maven packaging</td></tr>
+  <tr><td>Member 3</td><td><code>p202X003</code></td><td>JavaFX GUI development, CSS theme & DFA interactive canvas</td></tr>
+  <tr><td>Member 4</td><td><code>p202X004</code></td><td>Automated test suite (16 tests), documentation & slides</td></tr>
+</table>
+
+</body>
+</html>

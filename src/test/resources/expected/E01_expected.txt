@@ -1,0 +1,12 @@
+Token type     | Lexeme           | Line   | Column
+---------------------------------------------------------------
+IDENTIFIER     | total            | 1      | 1     
+ASSIGN         | =                | 1      | 7     
+INTEGER        | 50               | 1      | 9     
+INTEGER        | 4                | 1      | 14    
+SEMICOLON      | ;                | 1      | 15    
+---------------------------------------------------------------
+
+LEXICAL ERRORS FOUND (1):
+  -> LEXICAL ERROR: Unexpected character '$' at Line 1, Column 12
+Summary: 5 tokens scanned, 1 error(s) in 0.962 ms.

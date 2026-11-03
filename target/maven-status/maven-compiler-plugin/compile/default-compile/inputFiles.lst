@@ -1,0 +1,13 @@
+/home/victor/Desktop/Techno/I4-GIC-A/I4-GIC-S1/Compilation/ArithmeticInputScanner/src/main/java/com/compiler/gui/DfaCanvas.java
+/home/victor/Desktop/Techno/I4-GIC-A/I4-GIC-S1/Compilation/ArithmeticInputScanner/src/main/java/com/compiler/cli/CliRunner.java
+/home/victor/Desktop/Techno/I4-GIC-A/I4-GIC-S1/Compilation/ArithmeticInputScanner/src/main/java/com/compiler/model/TestCase.java
+/home/victor/Desktop/Techno/I4-GIC-A/I4-GIC-S1/Compilation/ArithmeticInputScanner/src/main/java/com/compiler/model/Token.java
+/home/victor/Desktop/Techno/I4-GIC-A/I4-GIC-S1/Compilation/ArithmeticInputScanner/src/main/java/com/compiler/service/TestRunnerService.java
+/home/victor/Desktop/Techno/I4-GIC-A/I4-GIC-S1/Compilation/ArithmeticInputScanner/target/generated-sources/jflex/com/compiler/ArithmeticScanner.java
+/home/victor/Desktop/Techno/I4-GIC-A/I4-GIC-S1/Compilation/ArithmeticInputScanner/src/main/java/com/compiler/Main.java
+/home/victor/Desktop/Techno/I4-GIC-A/I4-GIC-S1/Compilation/ArithmeticInputScanner/src/main/java/com/compiler/model/TokenType.java
+/home/victor/Desktop/Techno/I4-GIC-A/I4-GIC-S1/Compilation/ArithmeticInputScanner/src/main/java/com/compiler/model/LexicalError.java
+/home/victor/Desktop/Techno/I4-GIC-A/I4-GIC-S1/Compilation/ArithmeticInputScanner/src/main/java/com/compiler/gui/ScannerGuiApp.java
+/home/victor/Desktop/Techno/I4-GIC-A/I4-GIC-S1/Compilation/ArithmeticInputScanner/src/main/java/com/compiler/service/ScannerService.java
+/home/victor/Desktop/Techno/I4-GIC-A/I4-GIC-S1/Compilation/ArithmeticInputScanner/src/main/java/com/compiler/model/TestReport.java
+/home/victor/Desktop/Techno/I4-GIC-A/I4-GIC-S1/Compilation/ArithmeticInputScanner/src/main/java/com/compiler/model/ScanResult.java
