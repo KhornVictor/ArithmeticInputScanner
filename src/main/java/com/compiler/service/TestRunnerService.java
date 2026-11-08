@@ -1,13 +1,13 @@
 package com.compiler.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import com.compiler.model.ScanResult;
 import com.compiler.model.TestCase;
 import com.compiler.model.TestReport;
 import com.compiler.model.TokenType;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Service to execute the official 15+ test cases required by the project brief.
@@ -145,95 +145,96 @@ public class TestRunnerService {
 
     public TestReport runTest(TestCase tc) {
         ScanResult result = scannerService.scan(tc.input());
-        boolean passed = false;
-        String message = "";
+        boolean passed;
+        String message;
 
         switch (tc.id()) {
-            case "N01":
+            case "N01" -> {
                 passed = !result.hasErrors() && result.getTokenCount() == 8
                         && result.getTokens().get(2).getType() == TokenType.DECIMAL;
                 message = passed ? "All 8 tokens correctly matched, including DECIMAL 12.5" : "Token count or types mismatch";
-                break;
-            case "N02":
+            }
+            case "N02" -> {
                 passed = !result.hasErrors() && result.getTokenCount() == 14;
                 message = passed ? "All 14 tokens with parentheses matched successfully" : "Token count mismatch";
-                break;
-            case "N03":
+            }
+            case "N03" -> {
                 passed = !result.hasErrors() && result.getTokenCount() == 12
                         && result.getTokens().stream().anyMatch(t -> t.getType() == TokenType.OP_POW)
                         && result.getTokens().stream().anyMatch(t -> t.getType() == TokenType.OP_MOD);
                 message = passed ? "Power (^) and modulo (%) operators recognized successfully" : "Operators mismatch";
-                break;
-            case "N04":
+            }
+            case "N04" -> {
                 passed = !result.hasErrors() && result.getTokenCount() == 14
                         && result.getTokens().stream().anyMatch(t -> t.getType() == TokenType.OP_GTE)
                         && result.getTokens().stream().anyMatch(t -> t.getType() == TokenType.OP_EQ)
                         && result.getTokens().stream().anyMatch(t -> t.getType() == TokenType.OP_NEQ);
                 message = passed ? "Relational operators (>=, ==, !=) matched correctly" : "Relational operator mismatch";
-                break;
-            case "N05":
+            }
+            case "N05" -> {
                 passed = !result.hasErrors() && result.getTokenCount() == 18;
                 message = passed ? "Multi-statement expression scanned cleanly with 18 tokens" : "Token count mismatch: got " + result.getTokenCount();
-                break;
-            case "N06":
+            }
+            case "N06" -> {
                 passed = !result.hasErrors() && result.getTokenCount() == 20;
                 message = passed ? "All comments skipped cleanly; 20 code tokens generated" : "Comment skipping failed: got " + result.getTokenCount();
-                break;
-            case "B01":
+            }
+            case "B01" -> {
                 passed = !result.hasErrors() && result.getTokenCount() == 0;
                 message = passed ? "Empty input handled cleanly: 0 tokens, 0 errors" : "Failed on empty input";
-                break;
-            case "B02":
+            }
+            case "B02" -> {
                 passed = !result.hasErrors()
                         && result.getTokens().stream().anyMatch(t -> t.getType() == TokenType.OP_GTE)
                         && result.getTokens().stream().anyMatch(t -> t.getType() == TokenType.OP_EQ)
                         && result.getTokens().stream().anyMatch(t -> t.getType() == TokenType.OP_LTE);
                 message = passed ? "Longest match correctly disambiguated >=, ==, and <=" : "Disambiguation failed";
-                break;
-            case "B03":
+            }
+            case "B03" -> {
                 passed = !result.hasErrors()
                         && result.getTokens().get(2).getType() == TokenType.DECIMAL
                         && result.getTokens().get(6).getType() == TokenType.INTEGER
                         && result.getTokens().get(10).getType() == TokenType.DECIMAL
                         && result.getTokens().get(14).getType() == TokenType.INTEGER;
                 message = passed ? "Decimals (12.50, 0.99) and Integers (12, 0) correctly distinguished" : "Literal matching failed";
-                break;
-            case "B04":
+            }
+            case "B04" -> {
                 passed = !result.hasErrors()
                         && result.getTokens().stream().filter(t -> t.getType() == TokenType.OP_DIV).count() == 2;
                 message = passed ? "Both division operators recognized; inline comment skipped cleanly" : "Division vs comment failed";
-                break;
-            case "B05":
+            }
+            case "B05" -> {
                 passed = !result.hasErrors() && result.getTokenCount() == 3;
                 message = passed ? "Clean termination at EOF without trailing newline or semicolon" : "EOF handling failed";
-                break;
-            case "E01":
+            }
+            case "E01" -> {
                 passed = result.hasErrors() && result.getErrorCount() == 1
                         && result.getErrors().get(0).invalidLexeme().equals("$");
                 message = passed ? "Lexical error for '$' caught at Line 1, Column 11; scanning completed" : "Error not caught";
-                break;
-            case "E02":
+            }
+            case "E02" -> {
                 passed = result.hasErrors() && result.getErrorCount() == 2;
                 message = passed ? "Both '#' and '@' caught as lexical errors; remaining tokens intact" : "Expected 2 errors";
-                break;
-            case "E03":
+            }
+            case "E03" -> {
                 passed = result.hasErrors() && result.getErrorCount() == 1
                         && result.getErrors().get(0).invalidLexeme().equals(".");
                 message = passed ? "Malformed decimal second dot caught; 3.14 and 15 recognized" : "Double dot error not caught";
-                break;
-            case "E04":
+            }
+            case "E04" -> {
                 passed = result.hasErrors() && result.getErrorCount() >= 2;
                 message = passed ? "Tilde (~) and quotes (\") caught as lexical errors" : "Expected errors for ~ and \"";
-                break;
-            case "BUG01":
+            }
+            case "BUG01" -> {
                 passed = result.hasErrors() && result.getErrorCount() == 1
                         && result.getTokens().get(2).getType() == TokenType.INTEGER
                         && result.getErrors().get(0).invalidLexeme().equals(".");
                 message = passed ? "Trailing dot rejected cleanly; '12' matched as INTEGER" : "Bug correction failed";
-                break;
-            default:
+            }
+            default -> {
                 passed = true;
                 message = "Executed successfully";
+            }
         }
 
         return new TestReport(tc, passed, result, message);

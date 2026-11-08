@@ -1,8 +1,18 @@
 package com.compiler.gui;
 
-import com.compiler.model.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
+
+import com.compiler.model.LexicalError;
+import com.compiler.model.ScanResult;
+import com.compiler.model.TestCase;
+import com.compiler.model.TestReport;
+import com.compiler.model.Token;
 import com.compiler.service.ScannerService;
 import com.compiler.service.TestRunnerService;
+
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -12,24 +22,30 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.Separator;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.List;
-
-/**
- * Modern, Clean, Minimalist JavaFX GUI for the JFlex Arithmetic Scanner.
- * Designed with a spacious dashboard aesthetic inspired by modern SaaS applications.
- */
 public class ScannerGuiApp extends Application {
 
     private final ScannerService scannerService = new ScannerService();
@@ -77,7 +93,7 @@ public class ScannerGuiApp extends Application {
     @Override
     public void start(Stage stage) {
         this.primaryStage = stage;
-        stage.setTitle("Arithmetic Scanner — Clean Dashboard");
+        stage.setTitle("Arithmetic Scanner ");
 
         BorderPane root = new BorderPane();
         root.getStyleClass().add("root");
@@ -89,8 +105,6 @@ public class ScannerGuiApp extends Application {
         VBox centerContainer = new VBox(20);
         centerContainer.setPadding(new Insets(24, 28, 24, 28));
 
-        // 1. Metric Stats Row
-        centerContainer.getChildren().add(createMetricStatsRow());
 
         // 2. Main Views (Scanner, Tests, DFA)
         contentStack = new StackPane();
@@ -208,52 +222,8 @@ public class ScannerGuiApp extends Application {
         navDfaBtn.getStyleClass().add(activeButton == navDfaBtn ? "nav-pill-active" : "nav-pill");
     }
 
-    // =========================================================================
-    // Metric Stats Row (Dashboard Cards)
-    // =========================================================================
-    private Node createMetricStatsRow() {
-        HBox row = new HBox(16);
-        row.setAlignment(Pos.CENTER);
 
-        // 1. Tokens Card
-        VBox card1 = createStatCard("TOKENS PARSED", statTokensValue = new Label("0"), new Label("Active"), "stat-tag-blue");
-        // 2. Errors Card
-        VBox card2 = createStatCard("LEXICAL STATUS", statErrorsValue = new Label("0 Errors"), statErrorsTag = new Label("Clean"), "stat-tag-green");
-        // 3. Execution Time Card
-        VBox card3 = createStatCard("SCAN DURATION", statDurationValue = new Label("0.0 ms"), new Label("Fast"), "stat-tag-blue");
-        // 4. Input Size Card
-        VBox card4 = createStatCard("INPUT SCALE", statLinesValue = new Label("0 Lines"), new Label("UTF-8"), "stat-tag-blue");
-
-        HBox.setHgrow(card1, Priority.ALWAYS);
-        HBox.setHgrow(card2, Priority.ALWAYS);
-        HBox.setHgrow(card3, Priority.ALWAYS);
-        HBox.setHgrow(card4, Priority.ALWAYS);
-
-        row.getChildren().addAll(card1, card2, card3, card4);
-        return row;
-    }
-
-    private VBox createStatCard(String labelText, Label valueLabel, Label tagLabel, String tagClass) {
-        VBox card = new VBox(6);
-        card.getStyleClass().add("stat-card");
-
-        HBox top = new HBox(8);
-        top.setAlignment(Pos.CENTER_LEFT);
-
-        Label label = new Label(labelText);
-        label.getStyleClass().add("stat-label");
-
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
-
-        tagLabel.getStyleClass().add(tagClass);
-        top.getChildren().addAll(label, spacer, tagLabel);
-
-        valueLabel.getStyleClass().add("stat-value");
-
-        card.getChildren().addAll(top, valueLabel);
-        return card;
-    }
+    
 
     // =========================================================================
     // View 1: Main Clean Scanner (Editor + Tokens Table)
@@ -293,21 +263,10 @@ public class ScannerGuiApp extends Application {
         codeEditor.getStyleClass().add("code-editor");
         codeEditor.setWrapText(false);
         VBox.setVgrow(codeEditor, Priority.ALWAYS);
+        codeEditor.textProperty().addListener((observable, oldValue, newValue) -> performScan());
 
-        // Quick Preset Buttons Row
-        HBox snippetsBar = new HBox(8);
-        snippetsBar.setAlignment(Pos.CENTER_LEFT);
-        Label quickLabel = new Label("Quick Try:");
-        quickLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #94a3b8; -fx-font-weight: 600;");
-
-        Button p1 = createPresetPill("total = 12.5 + qty * 2;");
-        Button p2 = createPresetPill("area = (b * h) / 2;");
-        Button p3 = createPresetPill("count >= 10");
-        Button p4 = createPresetPill("x = 50 $ 4;");
-
-        snippetsBar.getChildren().addAll(quickLabel, p1, p2, p3, p4);
-
-        editorCard.getChildren().addAll(editorHeader, codeEditor, snippetsBar);
+        
+        editorCard.getChildren().addAll(editorHeader, codeEditor);
 
         // Right Card: Token Stream Table
         VBox tableCard = new VBox(14);
@@ -321,10 +280,7 @@ public class ScannerGuiApp extends Application {
 
         VBox tableTitleBox = new VBox(2);
         Label streamTitle = new Label("Recognized Tokens");
-        streamTitle.getStyleClass().add("card-title");
-        Label streamSub = new Label("1-based line & column position tracking");
-        streamSub.getStyleClass().add("card-subtitle");
-        tableTitleBox.getChildren().addAll(streamTitle, streamSub);
+        tableTitleBox.getChildren().addAll(streamTitle);
 
         Region sp2 = new Region();
         HBox.setHgrow(sp2, Priority.ALWAYS);
@@ -334,15 +290,8 @@ public class ScannerGuiApp extends Application {
         searchField.getStyleClass().add("search-field");
         searchField.setPrefWidth(160);
 
-        MenuButton exportBtn = new MenuButton("Export");
-        exportBtn.getStyleClass().add("btn-secondary");
-        MenuItem exportCsv = new MenuItem("CSV Format");
-        exportCsv.setOnAction(e -> exportTokensCsv());
-        MenuItem exportJson = new MenuItem("JSON Format");
-        exportJson.setOnAction(e -> exportTokensJson());
-        exportBtn.getItems().addAll(exportCsv, exportJson);
 
-        tableHeader.getChildren().addAll(tableTitleBox, sp2, searchField, exportBtn);
+        tableHeader.getChildren().addAll(tableTitleBox, sp2, searchField);
 
         // Table
         tokenTable = new TableView<>();
@@ -409,16 +358,6 @@ public class ScannerGuiApp extends Application {
         return grid;
     }
 
-    private Button createPresetPill(String snippet) {
-        Button btn = new Button(snippet.length() > 20 ? snippet.substring(0, 18) + "…" : snippet);
-        btn.getStyleClass().add("btn-pill");
-        btn.setOnAction(e -> {
-            codeEditor.setText(snippet);
-            performScan();
-        });
-        return btn;
-    }
-
     // =========================================================================
     // View 2: Automated Test Suite (16 Cases)
     // =========================================================================
@@ -479,9 +418,9 @@ public class ScannerGuiApp extends Application {
                     Label pill = new Label(item);
                     pill.getStyleClass().add("token-badge");
                     if ("PASS".equals(item)) {
-                        pill.setStyle("-fx-background-color: #f0fdf4; -fx-text-fill: #16a34a; -fx-border-color: #bbf7d0; -fx-border-radius: 20px;");
+                        pill.setStyle("-fx-background-color: #1eff00; -fx-text-fill: #ffffff; -fx-border-color: #bbf7d0; -fx-border-radius: 20px;");
                     } else {
-                        pill.setStyle("-fx-background-color: #fef2f2; -fx-text-fill: #dc2626; -fx-border-color: #fecaca; -fx-border-radius: 20px;");
+                        pill.setStyle("-fx-background-color: #f50909; -fx-text-fill: #ffffff; -fx-border-color: #fecaca; -fx-border-radius: 20px;");
                     }
                     setGraphic(pill);
                     setText(null);
@@ -598,6 +537,9 @@ public class ScannerGuiApp extends Application {
     }
 
     private void updateDashboardMetrics(ScanResult result) {
+        if (statTokensValue == null || statErrorsValue == null || statDurationValue == null || statLinesValue == null) {
+            return;
+        }
         int validTokens = (int) result.getTokens().stream().filter(t -> !t.isError()).count();
         statTokensValue.setText(String.valueOf(validTokens));
 
@@ -710,46 +652,6 @@ public class ScannerGuiApp extends Application {
         }
     }
 
-    private void exportTokensCsv() {
-        FileChooser chooser = new FileChooser();
-        chooser.setTitle("Export Tokens to CSV");
-        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV File", "*.csv"));
-        File file = chooser.showSaveDialog(primaryStage);
-        if (file != null) {
-            try (FileWriter writer = new FileWriter(file)) {
-                writer.write("Token Type,Lexeme,Line,Column,Category\n");
-                for (Token t : tokenMasterData) {
-                    writer.write(String.format("\"%s\",\"%s\",%d,%d,\"%s\"\n",
-                            t.getTypeName(), t.getLexeme().replace("\"", "\"\""), t.getLine(), t.getColumn(), t.getCategory()));
-                }
-                showAlert("Export Complete", "Exported " + tokenMasterData.size() + " tokens to " + file.getName());
-            } catch (IOException e) {
-                showAlert("Export Error", e.getMessage());
-            }
-        }
-    }
-
-    private void exportTokensJson() {
-        FileChooser chooser = new FileChooser();
-        chooser.setTitle("Export Tokens to JSON");
-        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON File", "*.json"));
-        File file = chooser.showSaveDialog(primaryStage);
-        if (file != null) {
-            try (FileWriter writer = new FileWriter(file)) {
-                writer.write("[\n");
-                for (int i = 0; i < tokenMasterData.size(); i++) {
-                    Token t = tokenMasterData.get(i);
-                    writer.write(String.format("  {\"type\": \"%s\", \"lexeme\": \"%s\", \"line\": %d, \"column\": %d, \"category\": \"%s\"}%s\n",
-                            t.getTypeName(), t.getLexeme().replace("\"", "\\\""), t.getLine(), t.getColumn(), t.getCategory(),
-                            (i < tokenMasterData.size() - 1 ? "," : "")));
-                }
-                writer.write("]\n");
-                showAlert("Export Complete", "Exported " + tokenMasterData.size() + " tokens to " + file.getName());
-            } catch (IOException e) {
-                showAlert("Export Error", e.getMessage());
-            }
-        }
-    }
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

@@ -1,5 +1,8 @@
 package com.compiler.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -8,20 +11,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Visual canvas rendering the Deterministic Finite Automaton (DFA)
- * for the DECIMAL token pattern: (0 | [1-9][0-9]*)\.[0-9]+
- * Supports clean White/Light theme and Dark theme.
- */
 public class DfaCanvas extends Canvas {
 
     private String simulatedInput = "12.5";
     private final List<Integer> activeStates = new ArrayList<>();
     private boolean darkMode = false;
-
+    
     public DfaCanvas(double width, double height) {
         super(width, height);
         draw();
@@ -51,23 +46,23 @@ public class DfaCanvas extends Canvas {
             char c = simulatedInput.charAt(i);
             int next = -1;
             switch (current) {
-                case 0:
+                case 0 -> {
                     if (c == '0') next = 1;
                     else if (c >= '1' && c <= '9') next = 2;
-                    break;
-                case 1:
+                }
+                case 1 -> {
                     if (c == '.') next = 3;
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     if (c >= '0' && c <= '9') next = 2;
                     else if (c == '.') next = 3;
-                    break;
-                case 3:
+                }
+                case 3 -> {
                     if (c >= '0' && c <= '9') next = 4;
-                    break;
-                case 4:
+                }
+                case 4 -> {
                     if (c >= '0' && c <= '9') next = 4;
-                    break;
+                }
             }
             if (next == -1) break;
             current = next;
@@ -75,7 +70,7 @@ public class DfaCanvas extends Canvas {
         }
     }
 
-    public void draw() {
+    public final void draw() {
         GraphicsContext gc = getGraphicsContext2D();
         double w = getWidth();
         double h = getHeight();
