@@ -10,12 +10,11 @@
 
 ## 👥 Group Members & Contribution
 
-| Student ID | Full Name | Role & Primary Contribution |
-| :--- | :--- | :--- |
-| `p202X001` | [Member 1 Name] | JFlex Grammar Specification & Regular Expressions |
-| `p202X002` | [Member 2 Name] | Java Driver, Scanner Service & CLI Implementation |
-| `p202X003` | [Member 3 Name] | JavaFX GUI Application & DFA Visualizer |
-| `p202X004` | [Member 4 Name] | Test Suite (16 Cases), Documentation & Presentation |
+| Student ID | Full Name |
+| :--- | :--- |
+| `e20230078` | Khorn Victor |
+| `e20230260` | Heng Meylorng |
+| `e20230372` | Hour Samnang |
 
 ---
 
@@ -112,14 +111,15 @@ Pattern: `{Integer}\.[0-9]+` where `{Integer} = 0 | [1-9][0-9]*`
 | **S3** (Decimal Point) | S4 | S4 | Error | Error | No |
 | **S4** (Accepting: DECIMAL) | S4 | S4 | Error | Error | **YES** |
 
-```
-      '0'
- (S0) ----> (S1) --'.'---\
-   |                      \
-   | '1'-'9'      '.'      v       '0'-'9'        '0'-'9'
-   +------> (S2) --------> (S3) -----------> ((S4)) <---+
-             ^               |                  |       |
-             \---'0'-'9'-----/                  \-------/
+```mermaid
+flowchart LR
+    S0((S0)) -->|"'0'"| S1((S1))
+    S0 -->|"'1'-'9'"| S2((S2))
+    S1 -->|"'.'"| S3((S3))
+    S2 -->|"'0'-'9'"| S2
+    S2 -->|"'.'"| S3
+    S3 -->|"'0'-'9'"| S4(((S4)))
+    S4 -->|"'0'-'9'"| S4
 ```
 
 ---
